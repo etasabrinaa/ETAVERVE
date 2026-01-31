@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Laporan Pembelajaran - ETAVERVE</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+<style>
+/* CSS TIDAK DIUBAH - SAMA PERSIS */
+body { 
+    font-family: 'Segoe UI', Arial, sans-serif; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container { 
+    max-width: 1200px; 
+    background: #fff; 
+    padding: 30px; 
+    margin: auto; 
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-top: 5px solid #667eea;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.logo {
+    max-width: 1000px;
+    height: auto;
+    width: auto;
+}
+
+.header h1 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.header p {
+    color: #7f8c8d;
+    margin: 5px 0 0 0;
+    font-size: 16px;
+}
+
+table { 
+    width:100%; 
+    border-collapse:collapse; 
+    margin-top:25px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+th,td { 
+    border:1px solid #ddd; 
+    padding:12px; 
+    vertical-align:top;
+    font-size: 14px;
+}
+th { 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+textarea { 
+    width:100%; 
+    height:150px; 
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.3s;
+    resize: vertical;
+}
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+img { 
+    max-width:100px; 
+    max-height: 100px;
+    display:block; 
+    margin:auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.hidden { display:none }
+button { 
+    padding:12px 24px; 
+    margin-top:8px; 
+    cursor:pointer;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #f8f9fa;
+    color: #495057;
+    border: 2px solid #e9ecef;
+}
+
+.btn-secondary:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#loginBox {
+    max-width: 600px;
+    text-align: center;
+}
+
+#loginBox h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+}
+
+#loginBox input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#loginBox button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#loginBox button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+#info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    margin: 20px 0;
+}
+
+#loading {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.progress-container {
+    background: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+progress {
+    width: 100%;
+    height: 20px;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+}
+
+#progressText {
+    display: block;
+    margin-top: 10px;
+    color: #667eea;
+    font-weight: 600;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+/* ================ CSS BARU UNTUK HEADER PDF ================ */
+.pdf-header {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-top: 5px solid #667eea;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.pdf-header .pdf-logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.pdf-header .pdf-logo {
+    max-width: 1000px;
+    height: auto;
+    width: auto;
+}
+
+.pdf-header h1 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.pdf-header p {
+    color: #7f8c8d;
+    margin: 5px 0 0 0;
+    font-size: 16px;
+}
+
+.pdf-header .pdf-divider {
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+/* ================ CSS UNTUK INFORMASI SISWA DI PDF ================ */
+.pdf-info-box {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.pdf-info-box div {
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.pdf-info-box strong {
+    color: #2c3e50;
+}
+
+/* ================ CSS UNTUK TABEL DI PDF ================ */
+.pdf-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.pdf-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.pdf-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    vertical-align: top;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.pdf-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.pdf-table tr:hover {
+    background-color: #f5f5f5;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="container" id="loginBox">
+  <div class="header">
+    <div class="logo-container">
+      <img src="header.jpg" class="logo" alt="ETAVERVE Logo" style="width: 1000px;">
+    </div>
+    <h1>ETAVERVE</h1>
+    <p>Laporan Pembelajaran Siswa</p>
+  </div>
+  
+  <h2>LOGIN DULU YA MISS</h2>
+  <input id="username" placeholder="Username"><br><br>
+  <input id="password" type="password" placeholder="Password"><br><br>
+  <button onclick="login()">Login ke Sistem</button>
+  <p id="loginError" style="color:red; margin-top:15px;"></p>
+</div>
+
+<!-- APP -->
+<div class="container hidden" id="app">
+  <div class="header">
+    <div class="logo-container">
+      <img src="header.jpg" class="logo" alt="ETAVERVE Logo" style="width: 1000px;">
+    </div>
+    <h1>LAPORAN PEMBELAJARAN SISWA</h1>
+    <p>Monitoring Perkembangan Siswa</p>
+  </div>
+
+  <div class="input-group">
+    <label for="namaSiswa">Nama Siswa:</label>
+    <input id="namaSiswa" placeholder="Contoh: Andi Pratama">
+  </div>
+
+  <div class="input-group">
+    <label for="bulan">Pembelajaran Bulan:</label>
+    <input id="bulan" placeholder="Contoh: Januari 2025">
+  </div>
+
+  <div class="input-group">
+    <label for="pasteArea">Paste Tabel dari Excel / Spreadsheet:</label>
+    <textarea id="pasteArea" placeholder="Salin (Ctrl+C) tabel dari Excel/Google Sheets dan tempel (Ctrl+V) di sini..."></textarea>
+  </div>
+  
+  <button class="btn-primary" onclick="prosesPaste()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+    </svg>
+    Proses Data
+  </button>
+
+  <p id="info"></p>
+
+  <table id="laporanTable">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Tanggal</th>
+        <th>Pertemuan</th>
+        <th>Materi Pembelajaran</th>
+        <th>Dokumentasi</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="downloadPDF()" id="downloadBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+      </svg>
+      Download PDF dengan Gambar
+    </button>
+    <button class="btn-secondary" onclick="downloadPDFWithoutImages()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+      </svg>
+      PDF Ringkas
+    </button>
+  </div>
+</div>
+
+<script>
+// ================ BAGIAN YANG DITAMBAHKAN ================
+let reportData = [];
+let processedImages = {}; // Cache untuk gambar yang sudah diproses
+let loadingDiv, progressBar, progressText, downloadBtn;
+
+function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const loginError = document.getElementById('loginError');
+    
+    if(username === "hepta" && password === "12345") {
+        loginBox.classList.add("hidden");
+        app.classList.remove("hidden");
+        loginError.textContent = "";
+        
+        // Inisialisasi elemen loading setelah login
+        loadingDiv = document.getElementById('loading');
+        progressBar = document.getElementById('progressBar');
+        progressText = document.getElementById('progressText');
+        downloadBtn = document.getElementById('downloadBtn');
+    } else {
+        loginError.textContent = "Username atau password salah!";
+    }
+}
+
+function isTanggal(text) {
+    return /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(text.trim());
+}
+
+// Konversi link Google Drive ke format yang bisa diakses
+function convertGoogleDriveLink(url) {
+    if (!url) return null;
+    
+    // Format 1: https://drive.google.com/file/d/FILE_ID/view
+    let match = url.match(/\/d\/([^\/]+)/);
+    if (match) {
+        return `https://drive.google.com/uc?id=${match[1]}&export=download`;
+    }
+    
+    // Format 2: https://drive.google.com/open?id=FILE_ID
+    match = url.match(/id=([^&]+)/);
+    if (match) {
+        return `https://drive.google.com/uc?id=${match[1]}&export=download`;
+    }
+    
+    return url;
+}
+
+// Fungsi untuk memuat dan mengkonversi gambar ke base64
+function loadImageToBase64(url) {
+    return new Promise((resolve, reject) => {
+        if (!url || !url.startsWith('http')) {
+            resolve(null);
+            return;
+        }
+        
+        // Cek cache dulu
+        if (processedImages[url]) {
+            resolve(processedImages[url]);
+            return;
+        }
+        
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        
+        img.onload = function() {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                
+                // Konversi ke base64 dengan kualitas 0.7 (agar ukuran file tidak terlalu besar)
+                const base64 = canvas.toDataURL('image/jpeg', 0.7);
+                processedImages[url] = base64;
+                resolve(base64);
+            } catch (error) {
+                console.error('Error converting image:', error);
+                resolve(null);
+            }
+        };
+        
+        img.onerror = function() {
+            console.warn('Cannot load image:', url);
+            resolve(null);
+        };
+        
+        // Tambahkan timestamp untuk menghindari cache
+        const timestamp = new Date().getTime();
+        const finalUrl = url + (url.includes('?') ? '&' : '?') + 't=' + timestamp;
+        img.src = finalUrl;
+    });
+}
+
+// Fungsi untuk memuat semua gambar secara async
+async function loadAllImages() {
+    if (!loadingDiv || !progressBar || !progressText || !downloadBtn) return;
+    
+    loadingDiv.classList.remove('hidden');
+    downloadBtn.disabled = true;
+    
+    const imageUrls = [];
+    reportData.forEach(item => {
+        if (item.doc && item.doc.startsWith('http')) {
+            const convertedUrl = convertGoogleDriveLink(item.doc);
+            if (convertedUrl) {
+                imageUrls.push(convertedUrl);
+            }
+        }
+    });
+    
+    if (imageUrls.length === 0) {
+        loadingDiv.classList.add('hidden');
+        downloadBtn.disabled = false;
+        return;
+    }
+    
+    for (let i = 0; i < imageUrls.length; i++) {
+        const url = imageUrls[i];
+        try {
+            await loadImageToBase64(url);
+            
+            // Update progress
+            const progress = Math.round(((i + 1) / imageUrls.length) * 100);
+            progressBar.value = progress;
+            progressText.textContent = `${progress}%`;
+            
+            // Beri sedikit delay agar tidak terlalu cepat
+            await new Promise(resolve => setTimeout(resolve, 100));
+        } catch (error) {
+            console.error('Error loading image:', url, error);
+        }
+    }
+    
+    loadingDiv.classList.add('hidden');
+    downloadBtn.disabled = false;
+    alert('Gambar siap untuk diunduh dalam PDF!');
+}
+
+function prosesPaste() {
+    const lines = pasteArea.value.split("\n");
+    const tbody = document.querySelector("#laporanTable tbody");
+    tbody.innerHTML = "";
+
+    reportData = [];
+    processedImages = {}; // Reset cache
+    let current = null;
+
+    lines.forEach(line => {
+        const cols = line.split("\t");
+
+        if(cols.length >= 4 && isTanggal(cols[0])) {
+            current = {
+                tanggal: cols[0],
+                pertemuan: cols[1],
+                materi: cols[2] || "",
+                doc: cols[3] || ""
+            };
+            reportData.push(current);
+        } else if(current && line.trim() !== "") {
+            current.materi += "<br>• " + line.replace(/^[-•]\s*/, "");
+        }
+    });
+
+    let no = 1;
+    reportData.forEach(r => {
+        let docHTML = "";
+        let imgUrl = "";
+        
+        if(r.doc && r.doc.startsWith("http")) {
+            imgUrl = convertGoogleDriveLink(r.doc);
+            docHTML = `
+                <div style="text-align: center;">
+                    <img src="${imgUrl}" style="max-width: 100px; max-height: 100px; border-radius: 8px;" 
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/100x100/f0f0f0/666?text=Gambar'">
+                    <br>
+                    <a href="${r.doc}" target="_blank" style="font-size: 12px; color: #667eea; text-decoration: none;">
+                        🔗 Buka Link
+                    </a>
+                </div>
+            `;
+        }
+
+        tbody.innerHTML += `
+            <tr>
+                <td style="text-align: center; font-weight: 600;">${no++}</td>
+                <td style="text-align: center;">${r.tanggal}</td>
+                <td>${r.pertemuan}</td>
+                <td style="color: #2c3e50;">${r.materi}</td>
+                <td style="text-align: center;">${docHTML}</td>
+            </tr>
+        `;
+    });
+
+    const info = document.getElementById('info');
+    if (namaSiswa.value || bulan.value) {
+        info.innerHTML = `
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                ${namaSiswa.value ? `<div><strong>👤 Nama Siswa:</strong> ${namaSiswa.value}</div>` : ''}
+                ${bulan.value ? `<div><strong>📅 Pembelajaran Bulan:</strong> ${bulan.value}</div>` : ''}
+                <div><strong>📊 Total Pertemuan:</strong> ${reportData.length}</div>
+            </div>
+        `;
+        info.classList.remove('hidden');
+    } else {
+        info.classList.add('hidden');
+    }
+
+    // Mulai memuat gambar secara background
+    if (reportData.some(item => item.doc && item.doc.startsWith('http'))) {
+        loadAllImages();
+    }
+    
+    pasteArea.value = "";
+}
+
+// ================ FUNGSI PDF DENGAN HEADER SAMA PERSIS ================
+
+// Fungsi untuk membuat header PDF SAMA PERSIS seperti website
+function createPDFHeader(doc, nama, bulanText) {
+    const pageWidth = doc.internal.pageSize.getWidth();
+    
+    // === HEADER SAMA PERSIS WEBSITE ===
+    // Background putih dengan border-radius
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(10, 10, pageWidth - 20, 70, 5, 5, 'F');
+    
+    // Border top biru seperti website
+    doc.setFillColor(102, 126, 234); // Warna #667eea
+    doc.roundedRect(10, 10, pageWidth - 20, 5, 0, 0, 'F');
+    
+    // Logo Container (simulasi)
+    doc.setTextColor(25, 25, 112);
+    doc.setFontSize(60);
+    doc.setFont("helvetica", "bold");
+    doc.text("ETAVERVE", pageWidth/2, 37, null, null, 'center');
+    
+    // Judul utama
+    doc.setFontSize(19);
+    doc.setTextColor(44, 62, 80); // #2c3e50
+    doc.text("LAPORAN PEMBELAJARAN SISWA", pageWidth/2, 50, null, null, 'center');
+    
+    // Subjudul
+    doc.setFontSize(12);
+    doc.setTextColor(44, 62, 80); // #7f8c8d
+    doc.text("Monitoring Perkembangan Siswa", pageWidth/2, 58, null, null, 'center');
+    
+    // Garis pembatas seperti website
+    doc.setDrawColor(102, 126, 234);
+    doc.setLineWidth(2);
+    doc.line(10, 65, pageWidth - 10, 65);
+    
+    // === INFORMASI SISWA ===
+    const infoY = 75;
+    
+    // Box info dengan background
+    doc.setFillColor(248, 249, 250); // #f8f9fa
+    doc.roundedRect(15, infoY, pageWidth - 30, 25, 3, 3, 'F');
+    
+    // Border kiri biru seperti website
+    doc.setFillColor(102, 126, 234);
+    doc.rect(15, infoY, 4, 25, 'F');
+    
+    // Informasi siswa
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.setTextColor(25, 25, 112);
+    
+    doc.text(`Nama Siswa: ${nama}`, 25, infoY + 10);
+    doc.text(`Pembelajaran Bulan: ${bulanText}`, 25, infoY + 18);
+    
+    const tanggalCetak = new Date().toLocaleDateString('id-ID');
+    const totalPertemuan = reportData.length;
+    doc.text(`Tanggal Cetak: ${tanggalCetak}`, pageWidth - 20, infoY + 10, null, null, 'right');
+    doc.text(`Total Pertemuan: ${totalPertemuan}`, pageWidth - 20, infoY + 18, null, null, 'right');
+    
+    return infoY + 35; // Posisi untuk konten berikutnya
+}
+
+// ================ FUNGSI PDF DARI KODE LAMA ================
+
+// Fungsi untuk download PDF dengan gambar (dari kode lama)
+async function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const nama = namaSiswa.value || "(Nama Siswa)";
+    const bulanText = bulan.value || "(Bulan)";
+    
+    // === HEADER SAMA PERSIS WEBSITE ===
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const startY = createPDFHeader(doc, nama, bulanText);
+    
+    // Siapkan data untuk tabel
+    const tableData = [];
+    
+    for (let i = 0; i < reportData.length; i++) {
+        const row = reportData[i];
+        
+        // Proses materi
+        const materiText = row.materi
+            .replace(/<br>/g, '\n')
+            .replace(/•/g, '-')
+            .replace(/\s+/g, ' ')
+            .trim();
+        
+        // Cek apakah ada gambar
+        let docInfo = "";
+        if (row.doc && row.doc.startsWith('http')) {
+            const convertedUrl = convertGoogleDriveLink(row.doc);
+            const base64Image = processedImages[convertedUrl];
+            
+            if (base64Image) {
+                try {
+                    // Hitung posisi Y untuk gambar
+                    // Karena kita pakai autoTable, posisi akan diatur di didDrawCell
+                    docInfo = "(Lihat gambar)";
+                } catch (error) {
+                    console.error('Error preparing image for PDF:', error);
+                    docInfo = "Link: " + row.doc;
+                }
+            } else {
+                docInfo = "Link: " + row.doc;
+            }
+        }
+        
+        tableData.push([
+            i + 1,
+            row.tanggal,
+            row.pertemuan,
+            materiText,
+            docInfo
+        ]);
+    }
+    
+    // Buat tabel dengan autoTable
+    const finalTable = doc.autoTable({
+        head: [['No', 'Tanggal', 'Pertemuan', 'Materi Pembelajaran', 'Dokumentasi']],
+        body: tableData,
+        startY: startY,
+        margin: { left: 14 },
+        styles: { 
+            fontSize: 9,
+            cellPadding: 3
+        },
+        columnStyles: {
+            0: { cellWidth: 10 },  // No
+            1: { cellWidth: 25 },  // Tanggal
+            2: { cellWidth: 35 },  // Pertemuan
+            3: { cellWidth: 70 },  // Materi
+            4: { cellWidth: 40 }   // Dokumentasi
+        },
+        didDrawCell: function(data) {
+            // Tambahkan gambar jika ada
+            if (data.column.index === 4 && data.cell.section === 'body') {
+                const rowIndex = data.row.index;
+                const row = reportData[rowIndex];
+                
+                if (row.doc && row.doc.startsWith('http')) {
+                    const convertedUrl = convertGoogleDriveLink(row.doc);
+                    const base64Image = processedImages[convertedUrl];
+                    
+                    if (base64Image) {
+                        try {
+                            // Tambahkan gambar ke PDF
+                            doc.addImage(base64Image, 'JPEG', 
+                                data.cell.x + 5, 
+                                data.cell.y + 2, 
+                                25, 25);
+                        } catch (error) {
+                            console.error('Error adding image to PDF:', error);
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Footer
+    const finalY = finalTable.finalY || 60;
+    doc.setFontSize(10);
+    doc.text("Laporan ini dihasilkan secara otomatis dari sistem.", 14, finalY + 12);
+    
+    // === NOMOR HALAMAN ===
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(9);
+        doc.setTextColor(150, 150, 150);
+        doc.text(`Halaman ${i} dari ${pageCount}`, 
+                 pageWidth - 15, doc.internal.pageSize.getHeight() - 10, null, null, 'right');
+    }
+    
+    doc.save(`Laporan-${nama}-${bulanText}.pdf`);
+}
+
+// Fungsi alternatif untuk download tanpa gambar (lebih cepat)
+function downloadPDFWithoutImages() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const nama = namaSiswa.value || "(Nama Siswa)";
+    const bulanText = bulan.value || "(Bulan)";
+    
+    // === HEADER SEDERHANA ===
+    const pageWidth = doc.internal.pageSize.getWidth();
+    
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.text("LAPORAN PEMBELAJARAN SISWA", pageWidth/2, 15, null, null, 'center');
+    doc.setFontSize(12);
+    doc.text("ETAVERVE", pageWidth/2, 22, null, null, 'center');
+    
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Nama Siswa: ${nama}`, 14, 35);
+    doc.text(`Bulan: ${bulanText}`, 14, 42);
+    doc.text(`Dibuat pada: ${new Date().toLocaleDateString('id-ID')}`, 14, 49);
+    
+    const tableData = reportData.map((row, index) => [
+        index + 1,
+        row.tanggal,
+        row.pertemuan,
+        row.materi.replace(/<br>/g, '\n').replace(/•/g, '-'),
+        row.doc && row.doc.startsWith("http") ? "Link tersedia" : ""
+    ]);
+    
+    doc.autoTable({
+        head: [['No', 'Tanggal', 'Pertemuan', 'Materi', 'Dokumentasi']],
+        body: tableData,
+        startY: 55,
+        margin: { left: 14 },
+        styles: { fontSize: 9 }
+    });
+    
+    doc.save(`Laporan-${nama}-${bulanText}-ringkas.pdf`);
+}
+</script>
+
+</body>
+</html>
