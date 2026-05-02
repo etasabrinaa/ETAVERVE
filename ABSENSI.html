@@ -833,9 +833,10 @@ async function downloadPDF() {
     });
     
     // Footer
-    const finalY = finalTable.finalY || 60;
-    doc.setFontSize(10);
-    doc.text(14, finalY + 12);
+   const finalY = doc.lastAutoTable.finalY || 60; 
+doc.setFontSize(10);
+doc.setTextColor(100);
+    doc.text("Laporan ini dihasilkan secara otomatis dari sistem.", 14, finalY + 20);
     
     // === NOMOR HALAMAN ===
     const pageCount = doc.internal.getNumberOfPages();
